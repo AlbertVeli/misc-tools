@@ -1,10 +1,11 @@
-eXeS = ccoincidences entropy outbin reverse subnet_calculator
+eXeS = ccoincidences entropy invert outbin reverse subnet_calculator
 # Comment out the line below if you don't have libgmp
 eXeS += isprime
 
 ccoincidences_OBJS = ccoincidences.o hextools.o map.o xor.o
 entropy_OBJS = entropy.o map.o
 entropy_LIBS = -lm
+invert_OBJS = hextools.o invert.o map.o
 isprime_OBJS = isprime.o
 isprime_LIBS = -lgmp
 outbin_OBJS = hextools.o map.o outbin.o
@@ -27,6 +28,9 @@ ccoincidences: $(ccoincidences_OBJS)
 entropy: $(entropy_OBJS)
 	$(CC) $(CFLAGS) -o $@ $(entropy_OBJS) $(entropy_LIBS)
 
+invert: $(invert_OBJS)
+	$(CC) $(CFLAGS) -o $@ $(invert_OBJS)
+
 isprime: $(isprime_OBJS)
 	$(CC) $(CFLAGS) -o $@ $(isprime_OBJS) $(isprime_LIBS)
 
@@ -44,6 +48,7 @@ subnet_calculator: $(subnet_calculator_OBJS)
 check:
 	clang --analyze $(CFLAGS) $(ccoincidences_OBJS:.o=.c)
 	clang --analyze $(CFLAGS) $(entropy_OBJS:.o=.c)
+	clang --analyze $(CFLAGS) $(invert_OBJS:.o=.c)
 	clang --analyze $(CFLAGS) $(isprime_OBJS:.o=.c)
 	clang --analyze $(CFLAGS) $(outbin_OBJS:.o=.c)
 	clang --analyze $(CFLAGS) $(reverse_OBJS:.o=.c)
