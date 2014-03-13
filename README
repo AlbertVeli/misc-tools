@@ -1,6 +1,10 @@
 Random collection of misc tools
 
+* ccoincidences: Xor a file against itself and count coincidences.
+                 If the file is xor "encrypted" the length of the
+		 key used will reveal itself.
 * entropy: Calculate entropy (bits/byte, max 8) for a file
 * isprime: Checks if an integer is prime or not (needs libgmp)
+* outbin: Reads a file containing hex code and prints its binary representation
 * reverse: Reverse all bytes in file (print result to stdout)
 * subnet_calculator: Calculate ipv4 subnet range
