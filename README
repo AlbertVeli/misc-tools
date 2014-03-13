@@ -1,4 +1,5 @@
 Random collection of misc tools
 
 * entropy: Calculate entropy (bits/byte, max 8) for a file
+* isprime: Checks if an integer is prime or not (needs libgmp)
 * subnet_calculator: Calculate ipv4 subnet range
