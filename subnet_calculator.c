@@ -1,4 +1,4 @@
-/* All Rights Reversed - No Rights Reserved */
+/* ~~=) All Rights Reversed (=~~ */
 
 #include <stdio.h>
 #include <stdint.h>

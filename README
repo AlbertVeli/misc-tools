@@ -1,3 +1,4 @@
 Random collection of misc tools
 
+* entropy: Calculate entropy (bits/byte, max 8) for a file
 * subnet_calculator: Calculate ipv4 subnet range
