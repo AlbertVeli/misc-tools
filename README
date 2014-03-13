@@ -7,6 +7,8 @@ Random collection of misc tools
 * invert: Invert all bytes in file (print result to stdout)
 * isprime: Check if an integer is prime or not. Needs libgmp-dev.
            Edit Makefile if you don't have libgmp to skip this one.
+* numunprintable: Count number of unprintable characters in file
 * outbin: Read file containing hex characters, print binary representation
 * reverse: Reverse all bytes in file (print result to stdout)
 * subnet_calculator: Calculate ipv4 subnet range
+* xorfiles: Xor contents of two files against each other
