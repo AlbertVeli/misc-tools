@@ -24,4 +24,4 @@ extern void aes_ctr_decrypt(const char *ct, char *msg, char *iv, int len);
  * End:
  */
 
-#endif /* __AES128_H */
+#endif /* __AES_H */

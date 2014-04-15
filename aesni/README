@@ -1,1 +1,3 @@
 Small test of the AES-NI instruction set. Tested on 64-bit OS X and 64-bit Linux.
+
+Note. Padding not implemented in CBC mode (yet).
