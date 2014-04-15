@@ -12,12 +12,11 @@
 # endif
 #endif
 
-extern void b64_enc(const char *in, char *out, int len);
-extern int b64_dec(const char *in, char *out, int len);
 extern void hex2bin(char *hex, char *bin, int hexlen);
 extern void bin2hex(char *bin, char *hex, int hexlen);
 extern void out_raw(const char *buf, int len);
 extern void out_hex(const char *buf, int len);
+extern void out_canonical(const char *buf, int len);
 
 /**
  * Local Variables:

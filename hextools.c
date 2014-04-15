@@ -3,10 +3,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "hextools.h"
-
-static char *table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 /* Return hex character corresponding to low four bits in nibble. */
 static inline unsigned char hexnibble(unsigned char nibble)
@@ -41,101 +40,6 @@ static inline unsigned char binnibble(unsigned char hexchar)
    }
 
    return val;
-}
-
-static inline int b64idx(int c)
-{
-   char *p = strchr(table, c);
-
-   if (!p) {
-      p = table;
-   }
-
-   return p - table;
-}
-
-/* Decode base64 encoded string in.
- * Put result in out, which must be allocated beforehand.
- * Return length of decoded out string.
- */
-int b64_dec(const char *in, char *out, int len)
-{
-   unsigned int q;
-   int outlen = 0;
-
-   if (len % 4) {
-      return 0;
-   }
-
-   while (*in) {
-      q = b64idx(*in++);
-      q = q << 6 | b64idx(*in++);
-      q = q << 6 | b64idx(*in++);
-      q = q << 6 | b64idx(*in++);
-      *out++ = (q >> 16) & 0xff;
-      *out++ = (q >> 8) & 0xff;
-      *out++ = q & 0xff;
-      outlen += 3;
-   }
-
-   *out = 0;
-
-   return outlen;
-}
-
-/* Base64 encode *in to *out, which must be able to hold
- * the whole encoded string (up to 4/3 times bigger than *in
- * + up to three bytes padding, to make length of *out a multiple of 4).
- */
-void b64_enc(const char *in, char *out, int len)
-{
-   int i;
-   unsigned char idx;
-   unsigned char *ip;
-
-   for(i = 0; i < len / 3; i++) {
-      ip = (unsigned char *)&in[i * 3];
-      idx = (*ip >> 2) & 0x3f;
-      *out++ = table[idx];
-      idx = ((*ip << 4) | (ip[1] >> 4)) & 0x3f;
-      *out++ = table[idx];
-      idx = ((ip[1] << 2) | (ip[2] >> 6)) & 0x3f;
-      *out++ = table[idx];
-      idx = ip[2] & 0x3f;
-      *out++ = table[idx];
-   }
-
-   switch (len % 3) {
-
-   case 0:
-      break;
-
-   case 1:
-      ip = (unsigned char *)&in[i * 3];
-      idx = (*ip >> 2) & 0x3f;
-      *out++ = table[idx];
-      idx = (*ip << 4) & 0x3f;
-      *out++ = table[idx];
-      *out++ = '=';
-      *out++ = '=';
-      break;
-
-   case 2:
-      ip = (unsigned char *)&in[i * 3];
-      idx = (*ip >> 2) & 0x3f;
-      *out++ = table[idx];
-      idx = ((*ip << 4) | (ip[1] >> 4)) & 0x3f;
-      *out++ = table[idx];
-      idx = (ip[1] << 2) & 0x3f;
-      *out++ = table[idx];
-      *out++ = '=';
-      break;
-
-   default:
-      break;
-   }
-
-   *out = 0;
 }
 
 /* Convert hex string *hex to binary string *bin.
@@ -184,7 +88,55 @@ void out_hex(const char *buf, int len)
    int i;
 
    for (i = 0; i < len; i++) {
-      printf("%02x", buf[i]);
+      printf("%02x", (unsigned char)*buf++);
+   }
+}
+
+/* Output len bytes from *buf to stdout as canonical hex */
+void out_canonical(const char *buf, int len)
+{
+   int i, j;
+
+   for (i = 0; i < len; i++) {
+      if (!(i & 0x0f)) {
+         if (i >= 16) {
+            buf = buf - 16;
+            printf(" |");
+            for (j = 0; j < 16; j++) {
+               printf("%c", isprint(*buf) ? *buf : '.');
+               buf++;
+            }
+            printf("|");
+         }
+         printf("\n%06x  ", i);
+      } else if (!(i & 0x07)) {
+         printf(" ");
+      }
+      printf("%02x ", (unsigned char)*buf++);
+   }
+
+   /* End of last row */
+   if (len % 16) {
+      /* Fill missing bytes with spaces */
+      for (j = 0; j < 16 - (len % 16); j++) {
+         printf("   ");
+      }
+      if (len % 16 < 8) {
+         printf(" ");
+      }
+
+      /* Print printable */
+      printf(" |");
+      buf = buf - (len % 16);
+      for (j = 0; j < len % 16; j++) {
+         printf("%c", isprint(*buf) ? *buf : '.');
+         buf++;
+      }
+      /* Fill missing bytes in printable section */
+      for (j = 0; j < 16 - (len % 16); j++) {
+         printf(" ");
+      }
+      printf("|\n");
    }
 }
 
