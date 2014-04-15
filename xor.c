@@ -2,13 +2,24 @@
 
 #include <stdint.h>
 
-/* Fast xor of 64 bytes */
+/* Fast xor of 64 bits */
 void xor_64(char *dst, char *s1, char *s2)
 {
    uint64_t *dp = (uint64_t *)dst;
    uint64_t *p1 = (uint64_t *)s1;
    uint64_t *p2 = (uint64_t *)s2;
 
+   *dp = *p1 ^ *p2;
+}
+
+/* Fast xor of 128 bits */
+void xor_128(char *dst, char *s1, char *s2)
+{
+   uint64_t *dp = (uint64_t *)dst;
+   uint64_t *p1 = (uint64_t *)s1;
+   uint64_t *p2 = (uint64_t *)s2;
+
+   *dp++ = *p1++ ^ *p2++;
    *dp = *p1 ^ *p2;
 }
 
