@@ -24,7 +24,7 @@ void aes_ecb_encrypt(const char *msg, char *ct, int len)
    /* Loop through blocks */
    for (i = 0; i < len / AES_BLOCK_SIZE; i++) {
       /* Decrypt 1 AES_BLOCK_SIZE byte block (16 bytes) */
-      aesni_128_encrypt(msg, ct, &key_d);
+      aesni_128_encrypt(msg, ct, &key_e);
       ct += AES_BLOCK_SIZE;
       msg += AES_BLOCK_SIZE;
    }
