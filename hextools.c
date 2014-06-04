@@ -97,7 +97,7 @@ void out_canonical(const char *buf, int len)
 {
    int i, j;
 
-   for (i = 0; i < len; i++) {
+   for (i = 0; i <= len; i++) {
       if (!(i & 0x0f)) {
          if (i >= 16) {
             buf = buf - 16;
@@ -108,11 +108,17 @@ void out_canonical(const char *buf, int len)
             }
             printf("|");
          }
-         printf("\n%06x  ", i);
+	 if (i < len) {
+	   printf("\n%06x  ", i);
+	 }
       } else if (!(i & 0x07)) {
-         printf(" ");
+	if (i < len) {
+	  printf(" ");
+	}
       }
-      printf("%02x ", (unsigned char)*buf++);
+      if (i < len) {
+	printf("%02x ", (unsigned char)*buf++);
+      }
    }
 
    /* End of last row */
@@ -137,6 +143,8 @@ void out_canonical(const char *buf, int len)
          printf(" ");
       }
       printf("|\n");
+   } else {
+     printf("\n");
    }
 }
 
