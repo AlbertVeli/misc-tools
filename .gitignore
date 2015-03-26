@@ -1,2 +1,14 @@
+bitreverse
+bitshiftleft
+ccoincidences
+entropy
+invert
+isprime
+numunprintable
+outbin
+reverse
 subnet_calculator
+substitute
+xorfiles
 *.o
+*~
