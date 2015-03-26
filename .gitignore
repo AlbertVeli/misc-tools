@@ -1,3 +1,4 @@
+add256
 bitreverse
 bitshiftleft
 ccoincidences
@@ -9,6 +10,7 @@ outbin
 reverse
 subnet_calculator
 substitute
+xor256
 xorfiles
 *.o
 *~

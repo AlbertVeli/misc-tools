@@ -1,7 +1,10 @@
-eXeS = bitreverse bitshiftleft ccoincidences entropy invert numunprintable outbin reverse subnet_calculator substitute xorfiles
+eXeS = add256 bitreverse bitshiftleft ccoincidences entropy invert numunprintable outbin reverse subnet_calculator substitute xor256 xorfiles
 # Comment out the line below if you don't have libgmp
 eXeS += isprime
 
+add256_OBJS = map.o add256.o
+bitreverse_OBJS = map.o bitreverse.o
+bitshiftleft_OBJS = map.o bitshiftleft.o
 ccoincidences_OBJS = ccoincidences.o hextools.o map.o xor.o
 entropy_OBJS = entropy.o map.o
 entropy_LIBS = -lm
@@ -11,11 +14,10 @@ isprime_LIBS = -lgmp
 numunprintable_OBJS = hextools.o map.o numunprintable.o
 outbin_OBJS = hextools.o map.o outbin.o
 reverse_OBJS = map.o reverse.o
-bitreverse_OBJS = map.o bitreverse.o
-bitshiftleft_OBJS = map.o bitshiftleft.o
 substitute_OBJS = map.o substitute.o
 subnet_calculator_OBJS = subnet_calculator.o
 xorfiles_OBJS = hextools.o map.o xor.o xorfiles.o
+xor256_OBJS = hextools.o map.o xor.o xor256.o
 
 DEBUG = yes
 ifdef DEBUG
@@ -26,6 +28,15 @@ endif
 CFLAGS = $(DBGFLAGS) -pipe -W -Wall
 
 all: $(eXeS)
+
+add256: $(add256_OBJS)
+	$(CC) $(CFLAGS) -o $@ $(add256_OBJS)
+
+bitreverse: $(bitreverse_OBJS)
+	$(CC) $(CFLAGS) -o $@ $(bitreverse_OBJS)
+
+bitshiftleft: $(bitshiftleft_OBJS)
+	$(CC) $(CFLAGS) -o $@ $(bitshiftleft_OBJS)
 
 ccoincidences: $(ccoincidences_OBJS)
 	$(CC) $(CFLAGS) -o $@ $(ccoincidences_OBJS)
@@ -48,12 +59,6 @@ outbin: $(outbin_OBJS)
 reverse: $(reverse_OBJS)
 	$(CC) $(CFLAGS) -o $@ $(reverse_OBJS)
 
-bitreverse: $(bitreverse_OBJS)
-	$(CC) $(CFLAGS) -o $@ $(bitreverse_OBJS)
-
-bitshiftleft: $(bitshiftleft_OBJS)
-	$(CC) $(CFLAGS) -o $@ $(bitshiftleft_OBJS)
-
 substitute: $(substitute_OBJS)
 	$(CC) $(CFLAGS) -o $@ $(substitute_OBJS)
 
@@ -63,9 +68,15 @@ subnet_calculator: $(subnet_calculator_OBJS)
 xorfiles: $(xorfiles_OBJS)
 	$(CC) $(CFLAGS) -o $@ $(xorfiles_OBJS)
 
+xor256: $(xor256_OBJS)
+	$(CC) $(CFLAGS) -o $@ $(xor256_OBJS)
+
 .PHONY: clean check
 
 check:
+	clang --analyze $(CFLAGS) $(add256_OBJS:.o=.c)
+	clang --analyze $(CFLAGS) $(bitreverse_OBJS:.o=.c)
+	clang --analyze $(CFLAGS) $(bitshiftleft_OBJS:.o=.c)
 	clang --analyze $(CFLAGS) $(ccoincidences_OBJS:.o=.c)
 	clang --analyze $(CFLAGS) $(entropy_OBJS:.o=.c)
 	clang --analyze $(CFLAGS) $(invert_OBJS:.o=.c)
@@ -73,11 +84,10 @@ check:
 	clang --analyze $(CFLAGS) $(numunprintable_OBJS:.o=.c)
 	clang --analyze $(CFLAGS) $(outbin_OBJS:.o=.c)
 	clang --analyze $(CFLAGS) $(reverse_OBJS:.o=.c)
-	clang --analyze $(CFLAGS) $(bitreverse_OBJS:.o=.c)
-	clang --analyze $(CFLAGS) $(bitshiftleft_OBJS:.o=.c)
 	clang --analyze $(CFLAGS) $(substitute_OBJS:.o=.c)
 	clang --analyze $(CFLAGS) $(subnet_calculator_OBJS:.o=.c)
 	clang --analyze $(CFLAGS) $(xorfiles_OBJS:.o=.c)
+	clang --analyze $(CFLAGS) $(xor256_OBJS:.o=.c)
 
 clean:
 	rm -f $(eXeS) *.o *.plist *~
