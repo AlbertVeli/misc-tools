@@ -1,4 +1,4 @@
-eXeS = bitreverse bitshiftleft ccoincidences entropy invert numunprintable outbin reverse subnet_calculator xorfiles
+eXeS = bitreverse bitshiftleft ccoincidences entropy invert numunprintable outbin reverse subnet_calculator substitution xorfiles
 # Comment out the line below if you don't have libgmp
 eXeS += isprime
 
@@ -13,6 +13,7 @@ outbin_OBJS = hextools.o map.o outbin.o
 reverse_OBJS = map.o reverse.o
 bitreverse_OBJS = map.o bitreverse.o
 bitshiftleft_OBJS = map.o bitshiftleft.o
+substitution_OBJS = map.o substitution.o
 subnet_calculator_OBJS = subnet_calculator.o
 xorfiles_OBJS = hextools.o map.o xor.o xorfiles.o
 
@@ -53,6 +54,9 @@ bitreverse: $(bitreverse_OBJS)
 bitshiftleft: $(bitshiftleft_OBJS)
 	$(CC) $(CFLAGS) -o $@ $(bitshiftleft_OBJS)
 
+substitution: $(substitution_OBJS)
+	$(CC) $(CFLAGS) -o $@ $(substitution_OBJS)
+
 subnet_calculator: $(subnet_calculator_OBJS)
 	$(CC) $(CFLAGS) -o $@ $(subnet_calculator_OBJS)
 
@@ -71,6 +75,7 @@ check:
 	clang --analyze $(CFLAGS) $(reverse_OBJS:.o=.c)
 	clang --analyze $(CFLAGS) $(bitreverse_OBJS:.o=.c)
 	clang --analyze $(CFLAGS) $(bitshiftleft_OBJS:.o=.c)
+	clang --analyze $(CFLAGS) $(substitution_OBJS:.o=.c)
 	clang --analyze $(CFLAGS) $(subnet_calculator_OBJS:.o=.c)
 	clang --analyze $(CFLAGS) $(xorfiles_OBJS:.o=.c)
 
