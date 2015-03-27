@@ -3,10 +3,82 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "hextools.h"
 #include "xor.h"
 #include "map.h"
+
+#define PROGRAM_NAME "xor256"
+#define PROGRAM_VERSION "0.1"
+#define PROGRAM_NAME_VERSION PROGRAM_NAME "-" PROGRAM_VERSION
+
+struct opts
+{
+   /* Mandatory */
+   char *filename;
+
+   /* Optional */
+   int xnor;
+} opt;
+
+/* Program documentation. */
+static char *prog_doc =
+   PROGRAM_NAME_VERSION
+   "\nXor file with all 256 combinations of 1 byte.\n\n"
+   "USAGE\n\n" PROGRAM_NAME " [OPTIONS] <filename>\n\n"
+   "MANDATORY ARGUMENTS\n\n"
+   "filename    - name of file to xor\n\n"
+   "OPTIONS\n\n"
+   "-n          - use xnor instead of normal xor\n"
+   "-h          - print this help text\n\n";
+
+void print_usage(void)
+{
+   printf("%s", prog_doc);
+}
+
+int parse_args(int argc, char **argv)
+{
+   int c;
+
+   /* Default values. */
+   opt.xnor = 0;
+
+   /* Parse optional arguments */
+   opterr = 0;
+   while ((c = getopt (argc, argv, "n")) != -1) {
+
+      switch (c) {
+
+      case 'n':
+         opt.xnor = 1;
+         break;
+
+      case 'h':
+         /* Just print help text */
+         return 0;
+
+      case '?':
+         fprintf(stderr, "Error: unknown option -%c\n\n", optopt);
+         return 0;
+
+      default:
+         return 0;
+      }
+   }
+
+   if (argc != optind + 1) {
+      puts("Error: wrong number of mandatory arguments");
+      return 0;
+   }
+
+   /* Mandatory arguments */
+   opt.filename = argv[optind];
+
+   return 1;
+}
+
 
 int main(int argc, char *argv[])
 {
@@ -16,14 +88,13 @@ int main(int argc, char *argv[])
    int i, b;
    char *p;
 
-   if (argc != 2) {
-      printf("Usage: %s <file>\n", argv[0]);
-      printf("Will xor file with all 256 single byte values\n");
+   if (!parse_args(argc, argv)) {
+      print_usage();
       return 1;
    }
 
-   if (!init_map(argv[1])) {
-      perror(argv[1]);
+   if (!init_map(opt.filename)) {
+      perror(opt.filename);
       return 1;
    }
 
@@ -37,14 +108,26 @@ int main(int argc, char *argv[])
       return 1;
    }
 
-   for (b = 0; b < 256; b++) {
-      memcpy(xorbuf, b1, b1len);
-      p = xorbuf;
-      for (i = 0; i < b1len; i++) {
-         *p = *p ^ b;
-         p++;
+   if (opt.xnor) {
+      for (b = 0; b < 256; b++) {
+         memcpy(xorbuf, b1, b1len);
+         p = xorbuf;
+         for (i = 0; i < b1len; i++) {
+            *p = ~(*p ^ b);
+            p++;
+         }
+         out_raw(xorbuf, b1len);
       }
-      out_raw(xorbuf, b1len);
+   } else {
+      for (b = 0; b < 256; b++) {
+         memcpy(xorbuf, b1, b1len);
+         p = xorbuf;
+         for (i = 0; i < b1len; i++) {
+            *p = *p ^ b;
+            p++;
+         }
+         out_raw(xorbuf, b1len);
+      }
    }
 
    free(xorbuf);

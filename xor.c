@@ -42,6 +42,25 @@ void otp_xor(char *dst, const char *s1, const char *s2, int len)
    }
 }
 
+/* One Time Pad. XNOR s1 against s2, put result in dst. */
+void otp_xnor(char *dst, const char *s1, const char *s2, int len)
+{
+   uint64_t *dp = (uint64_t *)dst;
+   uint64_t *p1 = (uint64_t *)s1;
+   uint64_t *p2 = (uint64_t *)s2;
+   int i;
+
+   for (i = 0; i < (len >> 3); i++) {
+      *dp++ = ~(*p1++ ^ *p2++);
+   }
+   dst = (char *)dp;
+   s1 = (char *)p1;
+   s2 = (char *)p2;
+   for (i = 0; i < len % 8; i++) {
+      *dst++ = ~((unsigned char)(*s1++ ^ *s2++));
+   }
+}
+
 /* XOR string s with single character c, put result in dst. */
 void c_xor(char *dst, const char *s, char c, int len)
 {
@@ -78,6 +97,24 @@ void rep_xor(char *dst, const char *s, const char *k, int slen, int klen)
          left -= klen;
       } else {
          otp_xor(dst, s, k, left);
+      }
+   }
+}
+
+/* XOR string s with repeating key string k, put result in dst. */
+void rep_xnor(char *dst, const char *s, const char *k, int slen, int klen)
+{
+   int i;
+   int left = slen;
+
+   for (i = 0; i < slen; i +=klen) {
+      if (left >= klen) {
+         otp_xnor(dst, s, k, klen);
+         dst += klen;
+         s += klen;
+         left -= klen;
+      } else {
+         otp_xnor(dst, s, k, left);
       }
    }
 }
