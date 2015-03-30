@@ -20,6 +20,9 @@ struct opts
 
    /* Optional */
    int xnor;
+
+   /* Optional */
+   char *outsuffix;
 } opt;
 
 /* Program documentation. */
@@ -31,6 +34,8 @@ static char *prog_doc =
    "filename    - name of file to xor\n\n"
    "OPTIONS\n\n"
    "-n          - use xnor instead of normal xor\n"
+   "-f <suffix> - write output into 256 separate files\n"
+   "              named 0-255.suffix (instead of stdout).\n"
    "-h          - print this help text\n\n";
 
 void print_usage(void)
@@ -44,15 +49,20 @@ int parse_args(int argc, char **argv)
 
    /* Default values. */
    opt.xnor = 0;
+   opt.outsuffix = NULL;
 
    /* Parse optional arguments */
    opterr = 0;
-   while ((c = getopt (argc, argv, "n")) != -1) {
+   while ((c = getopt (argc, argv, "nf:h")) != -1) {
 
       switch (c) {
 
       case 'n':
          opt.xnor = 1;
+         break;
+
+      case 'f':
+         opt.outsuffix = optarg;
          break;
 
       case 'h':
@@ -87,6 +97,8 @@ int main(int argc, char *argv[])
    char *xorbuf = NULL;
    int i, b;
    char *p;
+   FILE *fp;
+   char path[32];
 
    if (!parse_args(argc, argv)) {
       print_usage();
@@ -116,7 +128,18 @@ int main(int argc, char *argv[])
             *p = ~(*p ^ b);
             p++;
          }
-         out_raw(xorbuf, b1len);
+         if (opt.outsuffix) {
+            sprintf(path, "%03d.%s", b, opt.outsuffix);
+            fp = fopen(path, "w");
+            if (!fp) {
+               perror(path);
+            } else {
+               fwrite(xorbuf, 1, b1len, fp);
+               fclose(fp);
+            }
+         } else {
+            out_raw(xorbuf, b1len);
+         }
       }
    } else {
       for (b = 0; b < 256; b++) {
@@ -126,7 +149,18 @@ int main(int argc, char *argv[])
             *p = *p ^ b;
             p++;
          }
-         out_raw(xorbuf, b1len);
+         if (opt.outsuffix) {
+            sprintf(path, "%03d.%s", b, opt.outsuffix);
+            fp = fopen(path, "w");
+            if (!fp) {
+               perror(path);
+            } else {
+               fwrite(xorbuf, 1, b1len, fp);
+               fclose(fp);
+            }
+         } else {
+            out_raw(xorbuf, b1len);
+         }
       }
    }
 
