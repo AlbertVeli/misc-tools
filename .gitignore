@@ -3,6 +3,7 @@ bitreverse
 bitshiftleft
 ccoincidences
 entropy
+fib
 invert
 isprime
 numunprintable
