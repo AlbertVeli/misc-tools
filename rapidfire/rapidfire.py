@@ -177,7 +177,7 @@ while (True):
                             'country of ([.a-zA-Z ]+)',
                             'value of (\d+) in binary',
                             '(\d+)[tsrn][htd] fibonacci number',
-                            '2 digit code of ([.,a-zA-Z ]+)',
+                            '2 digit code of ([.,a-zA-Z -]+)',
                             'release year of ([.\'0-9a-zA-Z&:! -]+)',
                             pexpect.EOF, pexpect.TIMEOUT])
 
@@ -226,8 +226,8 @@ while (True):
             ans = getccode(num)
             dbg("2 digit code of " + num + " = " + ans)
         elif (index == 10):
-            #ans = get_title_year(num)
-            ans = get_title_year_imdb(num)
+            ans = get_title_year(num)
+            #ans = get_title_year_imdb(num)
             #ans = get_title_year_omdb(num)
 
             dbg("release year of " + num + " = " + ans)

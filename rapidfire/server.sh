@@ -105,25 +105,25 @@ fi
 echo "Are you for real?"
 
 round 10
-echo "Give me the 2 digit code of Mauritania"
+echo "Show me the 2 digit code of Timor-Leste"
 read p
-if test "$p" != "MR"; then
+if test "$p" != "TL"; then
     echo "Wrong answer"
     exit 1
 fi
 echo "Wanna play more?"
 
 round 11
-echo "Give me the release year of Knucklehead"
+echo "Give me the release year of About Time"
 read p
-if test "$p" != "2010"; then
+if test "$p" != "2013"; then
     echo "Wrong answer"
     exit 1
 fi
 echo "Good work!"
 
 round 12
-echo "Do you know what's the country of Lilongwe"
+echo "Do you know what's the country of N'Djamena"
 read p
 if test "$p" != "Malawi"; then
     echo "Wrong answer"

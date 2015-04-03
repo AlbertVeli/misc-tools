@@ -35,7 +35,7 @@ capitals = {
     'Canada': 'Ottawa',
     'Cape Verde': 'Praia',
     'Central African Republic': 'Bangui',
-    'Chad': 'NDjamena',
+    'Chad': 'N\'Djamena',
     'Chile': 'Santiago',
     'China': 'Beijing',
     'Colombia': 'Bogota',

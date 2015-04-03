@@ -21,7 +21,7 @@ echo "titleyear = {"
 sed '0,/AKA TITLES LIST/d' aka-titles.list | # Start after this line
 grep -v '(aka' aka-titles.list             | # Remove aka (also known as) titles
 sed "s/'/\\\'/g"                           | # Replace ' with \'
-sed -n "s/\(.*\)[ \t]*(\([0-9][0-9][0-9][0-9]\)).*/'\1': '\2',/p" | # 'title': 'year',
+sed -n "s/\(.*\)[ \t]*(\([0-9][0-9][0-9][0-9]\).\{0,2\}).*/'\1': '\2',/p" | # 'title': 'year',
 sed "s/ ': '/': '/" |                        # Remove space before :
 sed "s/^'\"/'/" |                            # Remove " at beginning of title
 sed "s/\"': '/': '/"                         # Remove " at end of title
