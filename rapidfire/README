@@ -1,0 +1,46 @@
+DESCRIPTION
+
+This is a python script I wrote during the BackdoorCTF15 competition
+on April 2 2015 to solve the rapid fire challenge.
+
+Before running it you need to create the titleyear.py file in the
+datasources directory.
+
+cd datasources
+./list2python.sh > titleyear.py
+
+That downloads the latest imdb list of titles and uses some sed magic
+(aka sedmagheddon) to create the python code.
+
+You also need the files piM.txt and primesM.txt which can be found in
+the following zipfile:
+
+https://minfil.org/Lakaidbab4/pi_primes.7z
+
+Just get it and unpack it inside the datasources directory.
+
+
+SIMULATE SERVER
+
+The run_server.sh script contains some magic to run script.sh
+redirecting stdin/stdout to a service at tcp port 6666 with a little
+help from a named pipe and netcat. If you want you can change the port
+number and script name to run some script you write yourself at some
+port at your liking.
+
+Script.sh contains some hardcoded questions similar to the ones at the
+real challenge. It's main use is to test if rapidfire.py works before
+launching it against the real server.
+
+
+RUN CLIENT
+
+This is the main code, rapidfire.py. Default it is set to run against
+the simulated local server. You can change one line inside the script
+to run it against the real server. After testing that everything
+works, change 'nc localhost 6666' to 'nc hack.bckdr.in 8008'.
+
+
+     Pungenday, the 20th day of Discord in the YOLD 3181
+
+               ~~=) All Rights Reversed (=~~

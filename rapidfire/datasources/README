@@ -1,0 +1,9 @@
+run: ./list2python.sh > titleyear.py
+to download imdb titles list and generate a
+python 'title': 'year' dictionary
+
+The functions getprime and getpi uses two
+large textfiles which needs to be downloaded
+before running rapidfire.py:
+
+https://minfil.org/Lakaidbab4/pi_primes.7z

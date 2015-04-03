@@ -14,5 +14,11 @@ subnet_calculator
 substitute
 xor256
 xorfiles
+rapidfire/flag.txt
+rapidfire/datasources/pi_primes.7z
+rapidfire/datasources/piM.txt
+rapidfire/datasources/primesM.txt
+rapidfire/datasources/titleyear.py
+rapidfire/datasources/aka-titles.list
 *.o
 *~
