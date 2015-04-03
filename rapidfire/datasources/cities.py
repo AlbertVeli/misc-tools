@@ -150,7 +150,7 @@ capitals = {
     'Russia': 'Moscow',
     'Rwanda': 'Kigali',
     'Saint Kitts and Nevis': 'Basseterre',
-    'SaintLucia': 'Castries',
+    'Saint Lucia': 'Castries',
     'Saint Vincent and the Grenadines': 'Kingstown',
     'Samoa': 'Apia',
     'San Marino': 'San Marino',

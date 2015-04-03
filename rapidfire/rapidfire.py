@@ -174,7 +174,7 @@ while (True):
                             '(\d+)[tsrn][htd] digit in pi',
                             '(\d+)[tsrn][htd] prime number',
                             'sum of first (\d+) fibonacci numbers',
-                            'country of ([.a-zA-Z ]+)',
+                            'country of ([.\'a-zA-Z ]+)',
                             'value of (\d+) in binary',
                             '(\d+)[tsrn][htd] fibonacci number',
                             '2 digit code of ([.,a-zA-Z -]+)',

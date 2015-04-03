@@ -125,7 +125,7 @@ echo "Good work!"
 round 12
 echo "Do you know what's the country of N'Djamena"
 read p
-if test "$p" != "Malawi"; then
+if test "$p" != "Chad"; then
     echo "Wrong answer"
     exit 1
 fi
