@@ -41,6 +41,12 @@ to run it against the real server. After testing that everything
 works, change 'nc localhost 6666' to 'nc hack.bckdr.in 8008'.
 
 
+TODO
+
+Movie release years is shaky. Often misses because it doesn't include
+aka titles. Fix this.
+
+
      Pungenday, the 20th day of Discord in the YOLD 3181
 
                ~~=) All Rights Reversed (=~~

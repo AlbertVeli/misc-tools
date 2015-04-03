@@ -100,7 +100,7 @@ def getbin(s):
 
 # Main program
 
-#  server = server = pexpect.spawn('cat pipa')
+#server = server = pexpect.spawn('cat pipa')
 #server = pexpect.spawn('nc 128.199.107.60 8008')
 server = pexpect.spawn('nc localhost 6666')
 
@@ -162,7 +162,7 @@ while (True):
                             'value of (\d+) in binary',
                             '(\d+)[tsrn][htd] fibonacci number',
                             '2 digit code of ([.,a-zA-Z ]+)',
-                            'release year of ([.\'0-9a-zA-Z&: -]+)',
+                            'release year of ([.\'0-9a-zA-Z&:! -]+)',
                             pexpect.EOF, pexpect.TIMEOUT])
 
     # If index > 10 then we either got EOF or a TIMEOUT

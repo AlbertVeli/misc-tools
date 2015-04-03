@@ -7,3 +7,8 @@ large textfiles which needs to be downloaded
 before running rapidfire.py:
 
 https://minfil.org/Lakaidbab4/pi_primes.7z
+
+Cmdline:
+cd datasources
+wget https://minfil.org/GTzAeUIO47WkH0Yo7h71jTnZrFKEPvnW/Lakaidbab4/pi_primes.7z
+7z x pi_primes.7z

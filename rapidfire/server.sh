@@ -186,6 +186,15 @@ fi
 echo "Nailed it"
 
 round 19
+echo 'What is the release year of Moulin Rouge!'
+read p
+if test "$p" != "2001"; then
+    echo "Wrong answer"
+    exit 1
+fi
+echo "Nailed it"
+
+round 20
 echo "What is the 2 digit code of Cocos (Keeling) Islands"
 read p
 if test "$p" != "CC"; then

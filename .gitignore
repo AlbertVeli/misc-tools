@@ -20,5 +20,7 @@ rapidfire/datasources/piM.txt
 rapidfire/datasources/primesM.txt
 rapidfire/datasources/titleyear.py
 rapidfire/datasources/aka-titles.list
+rapidfire/expectlog.txt
+*.pyc
 *.o
 *~
