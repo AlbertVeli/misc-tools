@@ -97,6 +97,22 @@ def getbin(s):
     n = int(s)
     return bin(n)[2:]
 
+def get_title_year_imdb(n):
+    cmd = 'datasources/relyear_imdb.sh ' + str(n)
+    child = pexpect.spawn(cmd)
+    child.expect(['\n', pexpect.EOF, pexpect.TIMEOUT])
+    ans = child.before.rstrip()
+    child.close()
+    return ans
+
+def get_title_year_omdb(n):
+    cmd = 'datasources/relyear_omdb.sh ' + str(n)
+    child = pexpect.spawn(cmd)
+    child.expect(['\n', pexpect.EOF, pexpect.TIMEOUT])
+    ans = child.before.rstrip()
+    child.close()
+    return ans
+
 
 # Main program
 
@@ -210,7 +226,10 @@ while (True):
             ans = getccode(num)
             dbg("2 digit code of " + num + " = " + ans)
         elif (index == 10):
-            ans = get_title_year(num)
+            #ans = get_title_year(num)
+            ans = get_title_year_imdb(num)
+            #ans = get_title_year_omdb(num)
+
             dbg("release year of " + num + " = " + ans)
 
     # This catches if user presses Ctrl-C
