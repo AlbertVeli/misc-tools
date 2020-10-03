@@ -37,20 +37,33 @@ int main(int argc, char *argv[])
 {
    char *buf;
    int buflen;
+   char *fname;
+   int verbose = 0;
 
-   if (argc != 2) {
-      fprintf(stderr, "Usage: %s <file>\n", argv[0]);
+   if (argc < 2) {
+      fprintf(stderr, "Usage: %s [-v] <file>\n", argv[0]);
       return 1;
    }
 
-   if (!init_map(argv[1])) {
-      perror(argv[1]);
+   if (argc == 3) {
+      if (strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--verbose") == 0) {
+         verbose = 1;
+      }
+      fname = argv[2];
+   } else {
+      fname = argv[1];
+   }
+
+   if (!init_map(fname)) {
+      perror(fname);
       return 1;
    }
 
    buf = map;
    buflen = get_map_len();
 
+   if (verbose)
+      printf("%s: ", fname);
    printf("%.2f bits/byte\n", entropy((unsigned char *)buf, buflen));
 
    free_map();
