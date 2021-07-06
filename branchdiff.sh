@@ -30,16 +30,28 @@ usage()
 	exit 1
 }
 
+while getopts 'v' opt
+do
+	case $opt in
+		v) verbose=true ;;
+	esac
+done
+shift $((OPTIND-1))
+
 if ! $(git rev-parse --is-inside-work-tree > /dev/null 2>&1); then
 	usage "Not inside a git work tree"
 fi
 
 fork_branch=$1
-if test -z "$fork_branch"; then
+if ! [ $fork_branch ]; then
 	usage "No parent branch name given"
 fi
 
 fork_commit=$(git merge-base --fork-point $fork_branch) || \
 	usage "Couldn't find fork point on branch $fork_branch"
+
+if [ $verbose ]; then
+	echo "Diff against commit $fork_commit on $fork_branch"
+fi
 
 git diff $fork_commit
